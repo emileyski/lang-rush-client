@@ -1,0 +1,64 @@
+/* components.css */
+
+@tailwind utilities;
+@tailwind base;
+@tailwind components;
+@layer components {
+  /* Component styles */
+  .auth-input {
+    @apply h-10 rounded-md border border-slate-700 px-2;
+  }
+  .auth-input:focus {
+    @apply outline-none;
+  }
+  .auth-input-dark {
+    @apply h-10 rounded-md border border-[#646464] bg-[#3A3F56] px-2 text-[#F5F5F5];
+  }
+  .auth-label {
+    @apply self-start font-semibold text-slate-700;
+  }
+  .auth-header {
+    @apply text-3xl font-semibold text-slate-700 transition-colors duration-300;
+    /* как сделать для dark текст white? */
+  }
+  .auth-header-dark {
+    @apply text-3xl font-semibold text-white;
+  }
+  .loader {
+    width: 45px;
+    aspect-ratio: 0.75;
+    --c: no-repeat linear-gradient(theme(colors.stone.800) 0 0);
+    background:
+      var(--c) 0% 50%,
+      var(--c) 50% 50%,
+      var(--c) 100% 50%;
+    background-size: 20% 50%;
+    animation: loading 1s infinite linear;
+  }
+  @keyframes loading {
+    20% {
+      background-position:
+        0% 0%,
+        50% 50%,
+        100% 50%;
+    }
+    40% {
+      background-position:
+        0% 100%,
+        50% 0%,
+        100% 50%;
+    }
+    60% {
+      background-position:
+        0% 50%,
+        50% 100%,
+        100% 0%;
+    }
+    80% {
+      background-position:
+        0% 50%,
+        50% 50%,
+        100% 100%;
+    }
+  }
+}
