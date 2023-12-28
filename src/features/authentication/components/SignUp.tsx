@@ -101,11 +101,11 @@ const SignUp: React.FC = () => {
       onSubmit={(e) => handleSubmit(e)}
     >
       <div className="flex w-[400px] flex-col justify-center gap-2">
-        <h1 className="auth-header dark:auth-header-dark">Sign up</h1>
+        <h1 className="auth-header">Sign up</h1>
         <input
           type="text"
           name="email"
-          className="auth-input dark:auth-input-dark"
+          className="auth-input"
           placeholder="Enter email"
         />
         {errorMessages.emailError && (
@@ -117,7 +117,7 @@ const SignUp: React.FC = () => {
           type={showPassword ? "text" : "password"}
           name="password"
           placeholder="Enter password"
-          className="auth-input dark:auth-input-dark"
+          className="auth-input"
         />
         {errorMessages.passwordError && (
           <span className="self-start font-semibold text-red-500">
@@ -128,7 +128,7 @@ const SignUp: React.FC = () => {
           type={showPassword ? "text" : "password"}
           name="confirmPassword"
           placeholder="Confirm password"
-          className="auth-input dark:auth-input-dark"
+          className="auth-input"
         />
         <div className="flex items-center gap-2">
           <input
@@ -151,11 +151,7 @@ const SignUp: React.FC = () => {
         <label className="auth-label" htmlFor="nativeLang">
           Choose your native language
         </label>
-        <select
-          id="nativeLang"
-          className="h-10 rounded-md border border-slate-700 px-2"
-          defaultValue={Lang.Uk}
-        >
+        <select id="nativeLang" className="auth-select" defaultValue={Lang.Uk}>
           {nativeLanguages.map((lang) => (
             <option key={lang.value} value={lang.value}>
               {lang.label}
@@ -166,14 +162,14 @@ const SignUp: React.FC = () => {
         <button
           disabled={loading}
           type="submit"
-          className="h-10 rounded-md bg-slate-700 text-white"
+          className="h-10 rounded-md bg-[#333C66] font-bold uppercase text-white"
         >
           Sign up
         </button>
         <div className="w-[100%] self-start font-semibold text-slate-700">
-          <span>Already have an account?</span>
+          <span className="auth-label">Already have an account?</span>
 
-          <Link to="/signin" className="ml-3 font-semibold text-blue-700">
+          <Link to="/signin" className="auth-link">
             Sign in
           </Link>
         </div>

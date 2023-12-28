@@ -1,28 +1,59 @@
 /* components.css */
 
-@tailwind utilities;
-@tailwind base;
-@tailwind components;
+/* @tailwind variants; */
+
 @layer components {
   /* Component styles */
   .auth-input {
-    @apply h-10 rounded-md border border-slate-700 px-2;
+    @apply h-10 rounded-md border border-slate-700 bg-white px-2 transition-colors duration-300;
+    @layer utilities {
+      .dark & {
+        @apply border-[#646464] bg-[#3A3F56] text-[#C4C4C4];
+      }
+    }
   }
   .auth-input:focus {
     @apply outline-none;
   }
-  .auth-input-dark {
-    @apply h-10 rounded-md border border-[#646464] bg-[#3A3F56] px-2 text-[#F5F5F5];
-  }
   .auth-label {
-    @apply self-start font-semibold text-slate-700;
+    @apply self-start font-semibold text-slate-700 transition-colors duration-300;
+    @layer utilities {
+      .dark & {
+        @apply text-[#808080];
+      }
+    }
   }
   .auth-header {
     @apply text-3xl font-semibold text-slate-700 transition-colors duration-300;
-    /* как сделать для dark текст white? */
+    @layer utilities {
+      .dark & {
+        @apply text-white;
+      }
+    }
   }
-  .auth-header-dark {
-    @apply text-3xl font-semibold text-white;
+  .auth-link {
+    @apply ml-3 font-semibold text-blue-700 transition-colors duration-300;
+    @layer utilities {
+      .dark & {
+        @apply text-white;
+      }
+    }
+  }
+  .auth-select {
+    @apply h-10 rounded-md border border-slate-700 bg-white px-2 transition-colors duration-300;
+    @layer utilities {
+      .dark & {
+        @apply border-[#646464] bg-[#3A3F56] text-[#C4C4C4];
+      }
+    }
+  }
+  .folder {
+    @apply relative flex h-[175px] w-[245px] flex-col items-center justify-center gap-[10px] rounded-[10px] bg-[#F0F0F0] transition-colors duration-300;
+    @layer utilities {
+      .dark & {
+        @apply bg-[#2C3659] text-[#fff];
+      }
+    }
   }
   .loader {
     width: 45px;
@@ -61,4 +92,7 @@
         100% 100%;
     }
   }
+}
+
+@layer utilities {
 }
