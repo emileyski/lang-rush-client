@@ -12,8 +12,8 @@ function AppLayout() {
 
       <Header />
 
-      <div className="overflow-scroll">
-        <main className="mx-auto max-w-4xl">
+      <div className="overflow-y-auto-scroll transition-colors duration-300 dark:bg-[#252C48]">
+        <main className="mx-auto max-w-5xl ">
           <Outlet />
         </main>
       </div>

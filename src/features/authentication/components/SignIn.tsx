@@ -3,31 +3,29 @@ import { Link } from "react-router-dom";
 
 const SignIn: React.FC = () => {
   return (
-    <form className="flex justify-center h-[90vh]">
-      <div className="flex flex-col gap-2 justify-center w-[400px]">
-        <h1 className="text-slate-700 font-semibold text-3xl self-start">
-          Sign in
-        </h1>
+    <form className="flex h-[90vh] justify-center">
+      <div className="flex w-[400px]  flex-col justify-center gap-2">
+        <h1 className="auth-header dark:auth-header-dark">Sign in</h1>
         <input
           type="text"
-          className="border border-slate-700 rounded-md h-10 px-2"
+          className="auth-input dark:auth-input-dark"
           placeholder="Enter email"
         />
         <input
           type="password"
           placeholder="Enter password"
-          className="border border-slate-700 rounded-md h-10 px-2"
+          className="auth-input dark:auth-input-dark"
         />
         <button
           type="submit"
-          className="bg-slate-700 text-white rounded-md h-10"
+          className="h-10 rounded-md bg-slate-700 text-white"
         >
           Sign in
         </button>
-        <div className="text-slate-700 font-semibold self-start w-[100%]">
+        <div className="w-[100%] self-start font-semibold text-slate-700">
           <span>Don't have an account?</span>
 
-          <Link to="/signup" className="text-blue-700 font-semibold ml-3">
+          <Link to="/signup" className="ml-3 font-semibold text-blue-700">
             Sign up
           </Link>
         </div>

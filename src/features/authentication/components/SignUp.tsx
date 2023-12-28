@@ -97,21 +97,19 @@ const SignUp: React.FC = () => {
 
   return (
     <form
-      className="flex justify-center h-[90vh]"
+      className="flex h-[90vh] justify-center"
       onSubmit={(e) => handleSubmit(e)}
     >
-      <div className="flex flex-col gap-2 justify-center w-[400px]">
-        <h1 className="text-slate-700 font-semibold text-3xl self-start">
-          Sign up
-        </h1>
+      <div className="flex w-[400px] flex-col justify-center gap-2">
+        <h1 className="auth-header dark:auth-header-dark">Sign up</h1>
         <input
           type="text"
           name="email"
-          className="border border-slate-700 rounded-md h-10 px-2"
+          className="auth-input dark:auth-input-dark"
           placeholder="Enter email"
         />
         {errorMessages.emailError && (
-          <span className="text-red-500 font-semibold self-start">
+          <span className="self-start font-semibold text-red-500">
             {errorMessages.emailError}
           </span>
         )}
@@ -119,10 +117,10 @@ const SignUp: React.FC = () => {
           type={showPassword ? "text" : "password"}
           name="password"
           placeholder="Enter password"
-          className="border border-slate-700 rounded-md h-10 px-2"
+          className="auth-input dark:auth-input-dark"
         />
         {errorMessages.passwordError && (
-          <span className="text-red-500 font-semibold self-start">
+          <span className="self-start font-semibold text-red-500">
             {errorMessages.passwordError}
           </span>
         )}
@@ -130,7 +128,7 @@ const SignUp: React.FC = () => {
           type={showPassword ? "text" : "password"}
           name="confirmPassword"
           placeholder="Confirm password"
-          className="border border-slate-700 rounded-md h-10 px-2"
+          className="auth-input dark:auth-input-dark"
         />
         <div className="flex items-center gap-2">
           <input
@@ -140,24 +138,22 @@ const SignUp: React.FC = () => {
             checked={showPassword}
             onChange={() => setShowPassword((prev) => !prev)}
           />
-          <label
-            className="text-slate-700 font-semibold self-start"
-            htmlFor="showPassword"
-          >
+          <label className="auth-label" htmlFor="showPassword">
             Show password
           </label>
         </div>
         {errorMessages.confirmPasswordError && (
-          <span className="text-red-500 font-semibold self-start">
+          <span className="self-start font-semibold text-red-500">
             {errorMessages.confirmPasswordError}
           </span>
         )}
 
-        <span className="text-slate-700 font-semibold self-start">
+        <label className="auth-label" htmlFor="nativeLang">
           Choose your native language
-        </span>
+        </label>
         <select
-          className="border border-slate-700 rounded-md h-10 px-2"
+          id="nativeLang"
+          className="h-10 rounded-md border border-slate-700 px-2"
           defaultValue={Lang.Uk}
         >
           {nativeLanguages.map((lang) => (
@@ -170,14 +166,14 @@ const SignUp: React.FC = () => {
         <button
           disabled={loading}
           type="submit"
-          className="bg-slate-700 text-white rounded-md h-10"
+          className="h-10 rounded-md bg-slate-700 text-white"
         >
           Sign up
         </button>
-        <div className="text-slate-700 font-semibold self-start w-[100%]">
+        <div className="w-[100%] self-start font-semibold text-slate-700">
           <span>Already have an account?</span>
 
-          <Link to="/signin" className="text-blue-700 font-semibold ml-3">
+          <Link to="/signin" className="ml-3 font-semibold text-blue-700">
             Sign in
           </Link>
         </div>
