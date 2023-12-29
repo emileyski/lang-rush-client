@@ -4,6 +4,7 @@ import logout from "src/assets/images/logout.svg";
 import { ReactSVG } from "react-svg";
 import { useLogoutMutation } from "src/genetated/types";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Header() {
   const [logOut] = useLogoutMutation();
@@ -26,10 +27,12 @@ function Header() {
   return (
     <header
       className="relative flex justify-center bg-[#2C3659] 
-    py-[20px] font-bold uppercase tracking-wider"
+    py-[20px] font-bold uppercase"
     >
-      <span className="text-white"> Engl </span>
-      <span className="text-[#C5F31D]"> Rush </span>
+      <Link to="/">
+        <span className="text-white">Engl</span>
+        <span className="text-[#C5F31D]">Rush</span>
+      </Link>
       <div
         className="absolute right-10 flex items-center
       space-x-10 text-white
