@@ -105,20 +105,20 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
     <form
       onSubmit={(e) => handleSubmit(e)}
       ref={formRef}
-      className="flex w-[451px] flex-col rounded-[10px] bg-[#A8D5F7] text-[#252C48]"
+      className="relative flex w-[451px] flex-col rounded-[10px] bg-[#A8D5F7] text-[#252C48]"
     >
       <div className="h-[65px] rounded-tl-[10px] rounded-tr-[10px] bg-[#2C3659] py-[22px] pl-[20px]">
         <input
           type="text"
           name="word"
           placeholder="Enter word here..."
-          className="font-sourceSansPro w-[100%] bg-transparent text-[20px] font-[700] text-[#fff] focus:outline-none"
+          className="w-[100%] bg-transparent font-sourceSansPro text-[20px] font-[700] text-[#fff] focus:outline-none"
         />
       </div>
       {/*TODO:определить высоту формы*/}
       <div
-        className="scrollbar-thin scrollbar-thumb-[#2C3659] scrollbar-track-[#A8D5F7] flex h-[60dvh]
-        flex-col gap-[7px] overflow-y-auto px-[20px] pt-[30px]"
+        className="flex h-[60dvh] flex-col gap-[7px] overflow-y-auto
+        px-[20px] pt-[30px] scrollbar-thin scrollbar-track-[#A8D5F7] scrollbar-thumb-[#2C3659]"
       >
         <WordFormAddInput
           id={"translation"}
@@ -207,23 +207,6 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
             />
           </div>
         ))}
-        {/* {sentences.map((_, i) => (
-          <div key={i} className="relative">
-            {i !== 0 && (
-              <button
-                className="absolute right-[-10px] top-[-10px] h-[24px] w-[24px]"
-                type="button"
-              >
-                <img src={closeIcon} alt="delete" />
-              </button>
-            )}
-            <textarea
-              className="min-h-[50px] w-[100%] rounded-[5px] px-1 focus:outline-none"
-              placeholder="Enter sentence here..."
-              name="sentence"
-            />
-          </div>
-        ))} */}
 
         <button
           className="my-[15px] flex h-[50px] w-[100%] items-center justify-center gap-[10px] rounded-[5px] bg-transparent text-[#252C48]
