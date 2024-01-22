@@ -39,6 +39,12 @@ const WordsContainer = () => {
     navigate("/signin");
   }
 
+  const selectCurrentWord = (id: string) => {
+    const word = data?.folder.words?.find((word) => word.id === id);
+
+    setSelectedWord(word || null);
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -79,7 +85,13 @@ const WordsContainer = () => {
             // folderId={params.id}
           />
           {data?.folder.words?.map((word, i) => (
-            <Word key={i} id={word.id} name={word.word} />
+            <Word
+              key={i}
+              id={word.id}
+              name={word.word}
+              refetch={refetch}
+              selectCurrentWord={selectCurrentWord}
+            />
           ))}
           {isAddingWord && (
             <Dialog onClose={() => setIsAddingWord(false)}>
@@ -92,7 +104,7 @@ const WordsContainer = () => {
             </Dialog>
           )}
         </div>
-        <WordOverview />
+        {selectedWord && <WordOverview wordId={selectedWord.id} />}
       </div>
     </div>
   );
