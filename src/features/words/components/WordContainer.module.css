@@ -1,0 +1,19 @@
+/* .container {
+  display: grid;
+  column-gap: 10px;
+  row-gap: 25px;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(auto-fill, 255px);
+  justify-content: space-between;
+} */
+
+.container {
+  display: grid;
+  column-gap: 10px;
+  row-gap: 25px;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: minmax(245px, 255px) repeat(auto-fill, 255px);
+  justify-content: space-between;
+}
