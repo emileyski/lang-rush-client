@@ -9,6 +9,12 @@ import Loader from "src/ui/Loader";
 import WordFormAddInput from "./WordFormAddInput";
 import { useParams } from "react-router-dom";
 
+const filterEmptyOrReturnUndefined = (arr: string[]) => {
+  return arr.filter((item) => item !== "").length > 0
+    ? arr.filter((item) => item !== "")
+    : undefined;
+};
+
 const initialWord = {
   word: "",
   translation: "",
@@ -42,8 +48,6 @@ const reducer = (state: typeof initialWord, action: any) => {
       return { ...state, otherAdvs: action.payload };
     case "form":
       return { ...state, form: action.payload };
-    // case "folderId":
-    //   return { ...state, folderId: action.payload };
     default:
       return state;
   }
@@ -57,10 +61,6 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
   const params = useParams<{ id: string }>() as { id: string };
 
   const [word, dispatch] = React.useReducer(reducer, initialWord);
-
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
-  // const formRef = React.useRef<HTMLFormElement>(null);
 
   const navigate = useNavigate();
 
@@ -81,47 +81,20 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
   });
 
   const handleAddWord = async () => {
-    // console.log({
-    //   ...word,
-    //   //Это нужно для того, чтобы не отправлять пустые строки
-    //   otherAdvs: word.otherAdvs.filter((adv) => adv !== ""),
-    //   otherAdjs: word.otherAdjs.filter((adj) => adj !== ""),
-    //   otherVerbs: word.otherVerbs.filter((verb) => verb !== ""),
-    //   otherNouns: word.otherNouns.filter((noun) => noun !== ""),
-    //   sentences: word.sentences.filter((sentence) => sentence !== ""),
-    //   folderId: params.id,
-    // });
-
     await createWord({
       variables: {
         ...word,
         //TODO: упростиь код
         //Это нужно для того, чтобы не отправлять пустые строки
-        otherAdvs:
-          word.otherAdvs.filter((adv) => adv !== "").length > 0
-            ? word.otherAdvs.filter((adv) => adv !== "")
-            : undefined,
-        otherAdjs:
-          word.otherAdjs.filter((adj) => adj !== "").length > 0
-            ? word.otherAdjs.filter((adj) => adj !== "")
-            : undefined,
-        otherVerbs:
-          word.otherVerbs.filter((verb) => verb !== "").length > 0
-            ? word.otherVerbs.filter((verb) => verb !== "")
-            : undefined,
-        otherNouns:
-          word.otherNouns.filter((noun) => noun !== "").length > 0
-            ? word.otherNouns.filter((noun) => noun !== "")
-            : undefined,
-        sentences: word.sentences.filter((sentence) => sentence !== ""),
+        otherAdvs: filterEmptyOrReturnUndefined(word.otherAdvs),
+        otherAdjs: filterEmptyOrReturnUndefined(word.otherAdjs),
+        otherVerbs: filterEmptyOrReturnUndefined(word.otherVerbs),
+        otherNouns: filterEmptyOrReturnUndefined(word.otherNouns),
+        sentences: word.sentences.filter((sentence: string) => sentence !== ""),
         folderId: params.id,
       },
     });
   };
-
-  // if (loading) {
-  //   return <Loader />;
-  // }
 
   return (
     <div className="relative flex w-[451px] flex-col rounded-[10px] bg-[#A8D5F7] text-[#252C48]">
@@ -244,7 +217,7 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
         <label className="mt-[15px]" htmlFor="sentence-1">
           Sentences
         </label>
-        {word.sentences.map((_, i) => (
+        {word.sentences.map((_: string, i: number) => (
           <div key={i} className="relative">
             {i !== 0 && (
               <button
@@ -252,7 +225,7 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
                 type="button"
                 onClick={() => {
                   const sentences = word.sentences.filter(
-                    (sentence) => sentence !== word.sentences[i],
+                    (sentence: string) => sentence !== word.sentences[i],
                   );
                   dispatch({ type: "sentences", payload: sentences });
                 }}
@@ -291,11 +264,6 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
           <img src={thinPlusIcon} alt="plus" />
           <span>Add new sentences</span>
         </button>
-        {errorMessage && (
-          <span className="mx-auto mb-[15px] text-[#FF0000]">
-            {errorMessage}
-          </span>
-        )}
         {error && (
           <span className="mx-auto mb-[15px] text-[#FF0000]">
             {error.message}
