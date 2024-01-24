@@ -8,6 +8,8 @@ interface IWordFormAddInput {
   label?: string;
   fieldsCount?: number;
   required?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>, index?: number) => void;
+  value?: string | string[];
 }
 
 const WordFormAddInput: FC<IWordFormAddInput> = ({
@@ -18,6 +20,8 @@ const WordFormAddInput: FC<IWordFormAddInput> = ({
   placeholder = "",
   fieldsCount = 1,
   required = false,
+  onChange,
+  value,
 }) => {
   return (
     <div
@@ -29,21 +33,30 @@ const WordFormAddInput: FC<IWordFormAddInput> = ({
         {label}
         {required && <span className="text-[#FF0000]">*</span>}
       </label>
-      {Array(fieldsCount)
-        .fill(0)
-        .map((_, i) => (
+      {fieldsCount === 1 ? (
+        <input
+          type={type}
+          name={name}
+          id={id}
+          placeholder={placeholder}
+          className="w-[140px] rounded-[5px] px-1 focus:outline-none"
+          onChange={onChange}
+          value={value}
+        />
+      ) : (
+        [...Array(fieldsCount)].map((_, i) => (
           <input
             key={i}
             type={type}
+            name={name}
             id={id}
             placeholder={placeholder}
-            name={name}
-            className={
-              `${fieldsCount > 1 ? "w-[24%]" : "w-[140px]"} 
-              }` + "rounded-[10px] rounded-[5px] px-1 focus:outline-none"
-            }
+            className="w-[24%] rounded-[5px] px-1 focus:outline-none"
+            onChange={(e) => onChange && onChange(e, i)}
+            value={Array.isArray(value) ? value[i] : value}
           />
-        ))}
+        ))
+      )}
     </div>
   );
 };

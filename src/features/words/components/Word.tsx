@@ -8,35 +8,35 @@ import Loader from "src/ui/Loader";
 interface IWordProps {
   id: string;
   name: string;
-  refetch: () => void;
+  handleDeleteClick: (id: string) => void;
   selectCurrentWord: (id: string) => void;
 }
 
 const Word: React.FC<IWordProps> = ({
   id,
   name,
-  refetch,
+  handleDeleteClick,
   selectCurrentWord,
 }) => {
   const navigate = useNavigate();
-  const [deleteWord, { loading, error }] = useDeleteWordMutation({
-    variables: {
-      id,
-    },
-    onCompleted: () => {
-      refetch();
-    },
-    onError: ({ graphQLErrors }) => {
-      if (!graphQLErrors) return;
-      for (const err of graphQLErrors) {
-        if (err?.message === "Unauthorized") {
-          removeTokens();
-          navigate("/signin");
-          break;
-        }
-      }
-    },
-  });
+  // const [deleteWord, { loading, error }] = useDeleteWordMutation({
+  //   variables: {
+  //     id,
+  //   },
+  //   onCompleted: () => {
+  //     refetch();
+  //   },
+  //   onError: ({ graphQLErrors }) => {
+  //     if (!graphQLErrors) return;
+  //     for (const err of graphQLErrors) {
+  //       if (err?.message === "Unauthorized") {
+  //         removeTokens();
+  //         navigate("/signin");
+  //         break;
+  //       }
+  //     }
+  //   },
+  // });
 
   const handleSelect = () => {
     selectCurrentWord(id);
@@ -44,12 +44,8 @@ const Word: React.FC<IWordProps> = ({
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    deleteWord();
+    handleDeleteClick(id);
   };
-
-  if (loading) {
-    return <Loader />;
-  }
 
   return (
     <div

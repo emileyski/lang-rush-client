@@ -14,15 +14,19 @@ import { useAppSelector } from "src/store/store";
 import playIcon from "@assets/images/play.svg";
 import style from "./WordContainer.module.css";
 import WordOverview from "./WordOverView";
+import FormDeleteWord from "./FormDeleteWord";
 
 const WordsContainer = () => {
   //TODO: выводить картинку на основании выбранной темы
   const isDark = useAppSelector((state) => state.theme.isDark);
 
   //TODO: добавить возможность редактировать название папки
-  const [isEditingFolder, setIsEditingFolder] = useState(false);
+  const [isEditingWord, setIsEditingWord] = useState(false);
+  const [isDeletingWord, setIsDeletingWord] = useState(false);
 
   const [selectedWord, setSelectedWord] = useState<WordType | null>(null);
+  const [selectedForDeletingWordId, setSelectedForDeletingWordId] =
+    useState<string>("");
 
   const [isAddingWord, setIsAddingWord] = useState(false);
   const params = useParams<{ id: string }>() as { id: string };
@@ -56,7 +60,7 @@ const WordsContainer = () => {
           <span className="font-sourceSansPro text-[48px] text-[#333C66] dark:text-[#fff]">
             {data?.folder.name}
           </span>
-          <button onClick={() => setIsEditingFolder(true)}>
+          <button onClick={() => setIsEditingWord(true)}>
             <img src={editIcon} alt="edit" />
           </button>
         </div>
@@ -89,23 +93,45 @@ const WordsContainer = () => {
               key={i}
               id={word.id}
               name={word.word}
-              refetch={refetch}
+              handleDeleteClick={() => {
+                setSelectedForDeletingWordId(word.id);
+                setIsDeletingWord(true);
+              }}
               selectCurrentWord={selectCurrentWord}
             />
           ))}
-          {isAddingWord && (
-            <Dialog onClose={() => setIsAddingWord(false)}>
-              <WordAddForm
-                onClose={() => {
-                  setIsAddingWord(false);
-                  refetch();
-                }}
-              />
-            </Dialog>
-          )}
         </div>
-        {selectedWord && <WordOverview wordId={selectedWord.id} />}
+        {selectedWord && (
+          <WordOverview
+            wordId={selectedWord.id}
+            handleClose={() => setSelectedWord(null)}
+          />
+        )}
       </div>
+      {isAddingWord && (
+        <Dialog onClose={() => setIsAddingWord(false)}>
+          <WordAddForm
+            onClose={() => {
+              setIsAddingWord(false);
+              refetch();
+            }}
+          />
+        </Dialog>
+      )}
+      {isDeletingWord && (
+        <Dialog onClose={() => setIsDeletingWord(false)}>
+          <FormDeleteWord
+            id={selectedForDeletingWordId}
+            refetch={() => {
+              refetch();
+              if (selectedWord?.id === selectedForDeletingWordId) {
+                setSelectedWord(null);
+              }
+            }}
+            onClose={() => setIsDeletingWord(false)}
+          />
+        </Dialog>
+      )}
     </div>
   );
 };

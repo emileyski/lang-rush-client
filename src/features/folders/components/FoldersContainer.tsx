@@ -7,7 +7,7 @@ import Folder from "./Folder";
 import FolderAdd from "./FolderAdd";
 import Dialog from "src/ui/Dialog";
 import FormAddFolder from "./FormAddFolder";
-import FormDeleteWord from "./FormDeleteWord";
+import FormDeleteFolder from "./FormDeleteFolder";
 
 const FoldersContainer = () => {
   // const [isAddingFolder, setIsAddingFolder] = useState<boolean>(false);
@@ -52,7 +52,7 @@ const FoldersContainer = () => {
       )}
       {isDeletingFolder && (
         <Dialog onClose={() => setIsDeletingFolder(false)}>
-          <FormDeleteWord
+          <FormDeleteFolder
             id={deleteFolderId}
             onClose={() => setIsDeletingFolder(false)}
           />

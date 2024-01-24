@@ -9,6 +9,46 @@ import Loader from "src/ui/Loader";
 import WordFormAddInput from "./WordFormAddInput";
 import { useParams } from "react-router-dom";
 
+const initialWord = {
+  word: "",
+  translation: "",
+  definition: "",
+  sentences: [""],
+  otherNouns: Array(3).fill(""),
+  otherVerbs: Array(3).fill(""),
+  otherAdjs: Array(3).fill(""),
+  otherAdvs: Array(3).fill(""),
+  form: WordForm.Noun,
+  // folderId: "",
+};
+
+const reducer = (state: typeof initialWord, action: any) => {
+  switch (action.type) {
+    case "word":
+      return { ...state, word: action.payload };
+    case "translation":
+      return { ...state, translation: action.payload };
+    case "definition":
+      return { ...state, definition: action.payload };
+    case "sentences":
+      return { ...state, sentences: action.payload };
+    case "otherNouns":
+      return { ...state, otherNouns: action.payload };
+    case "otherVerbs":
+      return { ...state, otherVerbs: action.payload };
+    case "otherAdjs":
+      return { ...state, otherAdjs: action.payload };
+    case "otherAdvs":
+      return { ...state, otherAdvs: action.payload };
+    case "form":
+      return { ...state, form: action.payload };
+    // case "folderId":
+    //   return { ...state, folderId: action.payload };
+    default:
+      return state;
+  }
+};
+
 interface IWordAddFormProps {
   onClose: () => void;
 }
@@ -16,10 +56,11 @@ interface IWordAddFormProps {
 const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
   const params = useParams<{ id: string }>() as { id: string };
 
+  const [word, dispatch] = React.useReducer(reducer, initialWord);
+
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const [sentences, setSentences] = useState<string[]>([""]);
-  const formRef = React.useRef<HTMLFormElement>(null);
+  // const formRef = React.useRef<HTMLFormElement>(null);
 
   const navigate = useNavigate();
 
@@ -39,78 +80,57 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
     },
   });
 
-  const handleRemoveSentence = (index: number) => {
-    setSentences((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleAddSentence = () => {
-    setErrorMessage("");
-    const sentences = formRef.current?.querySelectorAll<HTMLTextAreaElement>(
-      'textarea[name="sentence"]',
-    );
-
-    const sentencesArray: string[] = [];
-
-    sentences!.forEach((sentence) => {
-      sentencesArray.push(sentence.value);
-    });
-
-    if (sentencesArray[sentencesArray.length - 1] === "") {
-      setErrorMessage("Please fill in the previous sentence");
-      return;
-    }
-
-    setSentences((prev) => [...prev, ""]);
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-
-    const variables = {
-      word: formData.get("word") as string,
-      translation: formData.get("translation") as string,
-      definition: formData.get("definition") as string,
-      sentences: Array.from(formData.getAll("sentence") as string[]).filter(
-        (sentence) => sentence !== "",
-      ),
-      otherNouns: Array.from(formData.getAll("otherNouns") as string[]).filter(
-        (noun) => noun !== "",
-      ),
-      otherVerbs: Array.from(formData.getAll("otherVerbs") as string[]).filter(
-        (verb) => verb !== "",
-      ),
-      otherAdjs: Array.from(formData.getAll("otherAdjs") as string[]).filter(
-        (adj) => adj !== "",
-      ),
-      otherAdvs: Array.from(formData.getAll("otherAdvs") as string[]).filter(
-        (adv) => adv !== "",
-      ),
-      form: formData.get("form") as WordForm,
-      folderId: params.id,
-    };
-    console.log(variables);
+  const handleAddWord = async () => {
+    // console.log({
+    //   ...word,
+    //   //Это нужно для того, чтобы не отправлять пустые строки
+    //   otherAdvs: word.otherAdvs.filter((adv) => adv !== ""),
+    //   otherAdjs: word.otherAdjs.filter((adj) => adj !== ""),
+    //   otherVerbs: word.otherVerbs.filter((verb) => verb !== ""),
+    //   otherNouns: word.otherNouns.filter((noun) => noun !== ""),
+    //   sentences: word.sentences.filter((sentence) => sentence !== ""),
+    //   folderId: params.id,
+    // });
 
     await createWord({
-      variables,
+      variables: {
+        ...word,
+        //TODO: упростиь код
+        //Это нужно для того, чтобы не отправлять пустые строки
+        otherAdvs:
+          word.otherAdvs.filter((adv) => adv !== "").length > 0
+            ? word.otherAdvs.filter((adv) => adv !== "")
+            : undefined,
+        otherAdjs:
+          word.otherAdjs.filter((adj) => adj !== "").length > 0
+            ? word.otherAdjs.filter((adj) => adj !== "")
+            : undefined,
+        otherVerbs:
+          word.otherVerbs.filter((verb) => verb !== "").length > 0
+            ? word.otherVerbs.filter((verb) => verb !== "")
+            : undefined,
+        otherNouns:
+          word.otherNouns.filter((noun) => noun !== "").length > 0
+            ? word.otherNouns.filter((noun) => noun !== "")
+            : undefined,
+        sentences: word.sentences.filter((sentence) => sentence !== ""),
+        folderId: params.id,
+      },
     });
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  // if (loading) {
+  //   return <Loader />;
+  // }
 
   return (
-    <form
-      onSubmit={(e) => handleSubmit(e)}
-      ref={formRef}
-      className="relative flex w-[451px] flex-col rounded-[10px] bg-[#A8D5F7] text-[#252C48]"
-    >
+    <div className="relative flex w-[451px] flex-col rounded-[10px] bg-[#A8D5F7] text-[#252C48]">
       <div className="h-[65px] rounded-tl-[10px] rounded-tr-[10px] bg-[#2C3659] py-[22px] pl-[20px]">
         <input
           type="text"
           name="word"
+          value={word.word}
+          onChange={(e) => dispatch({ type: "word", payload: e.target.value })}
           placeholder="Enter word here..."
           className="w-[100%] bg-transparent font-sourceSansPro text-[20px] font-[700] text-[#fff] focus:outline-none"
         />
@@ -125,6 +145,10 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
           name={"translation"}
           label="Translation"
           required
+          value={word.translation}
+          onChange={(e) => {
+            dispatch({ type: "translation", payload: e.target.value });
+          }}
           placeholder="Enter translation here..."
         />
 
@@ -132,6 +156,10 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
           <span className="w-[25%]">Form*</span>
           <select
             name="form"
+            value={word.form}
+            onChange={(e) => {
+              dispatch({ type: "form", payload: e.target.value });
+            }}
             id="form"
             className="w-[140px] rounded-[5px] px-1 focus:outline-none"
           >
@@ -145,6 +173,12 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
 
         <span className="mt-[15px]">Other forms</span>
         <WordFormAddInput
+          onChange={(e, index) => {
+            const otherNouns = [...word.otherNouns];
+            otherNouns[index!] = e.target.value;
+            dispatch({ type: "otherNouns", payload: otherNouns });
+          }}
+          value={word.otherNouns}
           id={"otherNouns"}
           name={"otherNouns"}
           label="Nouns"
@@ -152,6 +186,12 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
           fieldsCount={3}
         />
         <WordFormAddInput
+          onChange={(e, index) => {
+            const otherVerbs = [...word.otherVerbs];
+            otherVerbs[index!] = e.target.value;
+            dispatch({ type: "otherVerbs", payload: otherVerbs });
+          }}
+          value={word.otherVerbs}
           id={"otherVerbs"}
           name={"otherVerbs"}
           label="Verbs"
@@ -161,6 +201,12 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
 
         <WordFormAddInput
           id={"otherAdjs"}
+          onChange={(e, index) => {
+            const otherAdjs = [...word.otherAdjs];
+            otherAdjs[index!] = e.target.value;
+            dispatch({ type: "otherAdjs", payload: otherAdjs });
+          }}
+          value={word.otherAdjs}
           name={"otherAdjs"}
           label="Adjectives"
           fieldsCount={3}
@@ -169,6 +215,12 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
 
         <WordFormAddInput
           id={"otherAdvs"}
+          onChange={(e, index) => {
+            const otherAdvs = [...word.otherAdvs];
+            otherAdvs[index!] = e.target.value;
+            dispatch({ type: "otherAdvs", payload: otherAdvs });
+          }}
+          value={word.otherAdvs}
           name={"otherAdvs"}
           label="Adverbs"
           placeholder="Enter adverbs here..."
@@ -178,6 +230,10 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
           Definition
         </label>
         <textarea
+          value={word.definition}
+          onChange={(e) =>
+            dispatch({ type: "definition", payload: e.target.value })
+          }
           id="definition"
           cols={3}
           className="min-h-[75px] w-[100%] resize-none rounded-[5px] px-1 focus:outline-none"
@@ -188,13 +244,18 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
         <label className="mt-[15px]" htmlFor="sentence-1">
           Sentences
         </label>
-        {sentences.map((_, i) => (
+        {word.sentences.map((_, i) => (
           <div key={i} className="relative">
             {i !== 0 && (
               <button
                 className="absolute right-[-10px] top-[-10px] h-[24px] w-[24px]"
                 type="button"
-                onClick={() => handleRemoveSentence(i)}
+                onClick={() => {
+                  const sentences = word.sentences.filter(
+                    (sentence) => sentence !== word.sentences[i],
+                  );
+                  dispatch({ type: "sentences", payload: sentences });
+                }}
               >
                 <img src={closeIcon} alt="delete" />
               </button>
@@ -204,6 +265,12 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
               placeholder="Enter sentence here..."
               name="sentence"
               id={`sentence-${i + 1}`}
+              value={word.sentences[i]}
+              onChange={(e) => {
+                const sentences = [...word.sentences];
+                sentences[i] = e.target.value;
+                dispatch({ type: "sentences", payload: sentences });
+              }}
             />
           </div>
         ))}
@@ -213,7 +280,13 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
           focus:outline-none
           "
           type="button"
-          onClick={handleAddSentence}
+          onClick={() => {
+            dispatch({
+              type: "sentences",
+              payload: [...word.sentences, ""],
+            });
+          }}
+          // onClick={handleAddSentence}
         >
           <img src={thinPlusIcon} alt="plus" />
           <span>Add new sentences</span>
@@ -231,11 +304,12 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
       </div>
       <button
         className="h-[50px] w-[100%] rounded-b-[10px] bg-[#C5F31D]"
-        type="submit"
+        onClick={handleAddWord}
       >
         Submit
       </button>
-    </form>
+      {loading && <Loader />}
+    </div>
   );
 };
 
