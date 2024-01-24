@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import AppLayout from "src/ui/AppLayout";
 import { SignIn, SignUp } from "src/features/authentication";
 import { FoldersContainer } from "@features/folders";
+import { WordsContainer } from "@features/words";
 
 const Error404 = () => {
   return (
@@ -28,6 +29,8 @@ const router = createBrowserRouter([
         path: "/",
         element: <FoldersContainer />,
       },
+      { path: "/:id/words", element: <WordsContainer /> },
+
       {
         path: "/signin",
         element: <SignIn />,

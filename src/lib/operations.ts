@@ -87,6 +87,23 @@ export const GET_FOLDER = gql`
   }
 `;
 
+export const GET_WORD = gql`
+  query word($id: String!) {
+    word(id: $id) {
+      id
+      word
+      definition
+      form
+      otherAdjs
+      otherAdvs
+      otherNouns
+      otherVerbs
+      sentences
+      translation
+    }
+  }
+`;
+
 export const CREATE_WORD = gql`
   mutation createWord(
     $definition: String!
@@ -116,5 +133,11 @@ export const CREATE_WORD = gql`
     ) {
       id
     }
+  }
+`;
+
+export const DELETE_WORD = gql`
+  mutation deleteWord($id: String!) {
+    deleteWord(id: $id)
   }
 `;

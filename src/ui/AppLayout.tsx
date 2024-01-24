@@ -13,7 +13,7 @@ function AppLayout() {
       <Header />
 
       <div className="overflow-auto transition-colors duration-300 dark:bg-[#252C48]">
-        <main className="mx-auto max-w-[1345px] ">
+        <main className="mx-auto max-w-[90%]">
           <Outlet />
         </main>
       </div>
