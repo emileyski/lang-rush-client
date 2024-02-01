@@ -147,6 +147,7 @@ const WordsContainer = () => {
               if (state.selectedForDeletingWordId === state.selectedWordId) {
                 dispatch({ type: "SET_SELECTED_WORD_ID", payload: "" });
               }
+              refetchFolder();
             }}
             onClose={() =>
               dispatch({
