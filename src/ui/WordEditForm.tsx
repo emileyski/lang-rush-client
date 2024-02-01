@@ -1,19 +1,10 @@
 import React, { FC, useState } from "react";
-import { WordForm, useCreateWordMutation } from "src/genetated/types";
+import { Word, WordForm } from "src/genetated/types";
 import thinPlusIcon from "@assets/images/thin-plus.svg";
 import closeIcon from "@assets/images/close.svg";
-import { removeTokens } from "src/utils";
-// import { GET_FOLDERS } from "@lib/operations";
-import { useNavigate } from "react-router-dom";
 import Loader from "src/ui/Loader";
-import WordFormAddInput from "./WordFormAddInput";
-import { useParams } from "react-router-dom";
 
-const filterEmptyOrReturnUndefined = (arr: string[]) => {
-  return arr.filter((item) => item !== "").length > 0
-    ? arr.filter((item) => item !== "")
-    : undefined;
-};
+import WordFormAddInput from "./WordFormAddInput";
 
 const initialWord = {
   word: "",
@@ -53,48 +44,25 @@ const reducer = (state: typeof initialWord, action: any) => {
   }
 };
 
-interface IWordAddFormProps {
+interface IWordEditFormProps {
   onClose: () => void;
+  editableWord?: Word;
+  handleSubmit: (word: Word) => void;
+  loading?: boolean;
+  error?: any;
 }
 
-const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
-  const params = useParams<{ id: string }>() as { id: string };
-
-  const [word, dispatch] = React.useReducer(reducer, initialWord);
-
-  const navigate = useNavigate();
-
-  const [createWord, { loading, error }] = useCreateWordMutation({
-    onCompleted: () => {
-      onClose();
-    },
-    onError: ({ graphQLErrors }) => {
-      if (!graphQLErrors) return;
-      for (const err of graphQLErrors) {
-        if (err?.message === "Unauthorized") {
-          removeTokens();
-          navigate("/signin");
-          break;
-        }
-      }
-    },
-  });
-
-  const handleAddWord = async () => {
-    await createWord({
-      variables: {
-        ...word,
-        //TODO: упростиь код
-        //Это нужно для того, чтобы не отправлять пустые строки
-        otherAdvs: filterEmptyOrReturnUndefined(word.otherAdvs),
-        otherAdjs: filterEmptyOrReturnUndefined(word.otherAdjs),
-        otherVerbs: filterEmptyOrReturnUndefined(word.otherVerbs),
-        otherNouns: filterEmptyOrReturnUndefined(word.otherNouns),
-        sentences: word.sentences.filter((sentence: string) => sentence !== ""),
-        folderId: params.id,
-      },
-    });
-  };
+const WordEditForm: FC<IWordEditFormProps> = ({
+  onClose,
+  editableWord,
+  handleSubmit,
+  loading,
+  error,
+}) => {
+  const [word, dispatch] = React.useReducer(
+    reducer,
+    editableWord || initialWord,
+  );
 
   return (
     <div className="relative flex w-[451px] flex-col rounded-[10px] bg-[#A8D5F7] text-[#252C48]">
@@ -272,7 +240,7 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
       </div>
       <button
         className="h-[50px] w-[100%] rounded-b-[10px] bg-[#C5F31D]"
-        onClick={handleAddWord}
+        onClick={() => handleSubmit(word as Word)}
       >
         Submit
       </button>
@@ -281,4 +249,4 @@ const WordAddForm: FC<IWordAddFormProps> = ({ onClose }) => {
   );
 };
 
-export default WordAddForm;
+export default WordEditForm;

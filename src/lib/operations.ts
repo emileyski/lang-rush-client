@@ -136,6 +136,38 @@ export const CREATE_WORD = gql`
   }
 `;
 
+export const UPDATE_WORD = gql`
+  mutation updateWord(
+    $id: String!
+    $definition: String!
+    $form: WordForm!
+    $otherAdjs: [String!]
+    $otherAdvs: [String!]
+    $otherNouns: [String!]
+    $otherVerbs: [String!]
+    $sentences: [String!]!
+    $translation: String!
+    $folderId: ID!
+  ) {
+    updateWord(
+      id: $id
+      data: {
+        definition: $definition
+        form: $form
+        otherAdjs: $otherAdjs
+        otherAdvs: $otherAdvs
+        otherNouns: $otherNouns
+        otherVerbs: $otherVerbs
+        sentences: $sentences
+        translation: $translation
+        folderId: $folderId
+      }
+    ) {
+      id
+    }
+  }
+`;
+
 export const DELETE_WORD = gql`
   mutation deleteWord($id: String!) {
     deleteWord(id: $id)

@@ -402,6 +402,22 @@ export type CreateWordMutationVariables = Exact<{
 
 export type CreateWordMutation = { __typename?: 'Mutation', createWord: { __typename?: 'Word', id: string } };
 
+export type UpdateWordMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  definition: Scalars['String']['input'];
+  form: WordForm;
+  otherAdjs?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  otherAdvs?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  otherNouns?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  otherVerbs?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  sentences: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  translation: Scalars['String']['input'];
+  folderId: Scalars['ID']['input'];
+}>;
+
+
+export type UpdateWordMutation = { __typename?: 'Mutation', updateWord: { __typename?: 'Word', id: string } };
+
 export type DeleteWordMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
@@ -822,6 +838,51 @@ export function useCreateWordMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateWordMutationHookResult = ReturnType<typeof useCreateWordMutation>;
 export type CreateWordMutationResult = Apollo.MutationResult<CreateWordMutation>;
 export type CreateWordMutationOptions = Apollo.BaseMutationOptions<CreateWordMutation, CreateWordMutationVariables>;
+export const UpdateWordDocument = gql`
+    mutation updateWord($id: String!, $definition: String!, $form: WordForm!, $otherAdjs: [String!], $otherAdvs: [String!], $otherNouns: [String!], $otherVerbs: [String!], $sentences: [String!]!, $translation: String!, $folderId: ID!) {
+  updateWord(
+    id: $id
+    data: {definition: $definition, form: $form, otherAdjs: $otherAdjs, otherAdvs: $otherAdvs, otherNouns: $otherNouns, otherVerbs: $otherVerbs, sentences: $sentences, translation: $translation, folderId: $folderId}
+  ) {
+    id
+  }
+}
+    `;
+export type UpdateWordMutationFn = Apollo.MutationFunction<UpdateWordMutation, UpdateWordMutationVariables>;
+
+/**
+ * __useUpdateWordMutation__
+ *
+ * To run a mutation, you first call `useUpdateWordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWordMutation, { data, loading, error }] = useUpdateWordMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      definition: // value for 'definition'
+ *      form: // value for 'form'
+ *      otherAdjs: // value for 'otherAdjs'
+ *      otherAdvs: // value for 'otherAdvs'
+ *      otherNouns: // value for 'otherNouns'
+ *      otherVerbs: // value for 'otherVerbs'
+ *      sentences: // value for 'sentences'
+ *      translation: // value for 'translation'
+ *      folderId: // value for 'folderId'
+ *   },
+ * });
+ */
+export function useUpdateWordMutation(baseOptions?: Apollo.MutationHookOptions<UpdateWordMutation, UpdateWordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateWordMutation, UpdateWordMutationVariables>(UpdateWordDocument, options);
+      }
+export type UpdateWordMutationHookResult = ReturnType<typeof useUpdateWordMutation>;
+export type UpdateWordMutationResult = Apollo.MutationResult<UpdateWordMutation>;
+export type UpdateWordMutationOptions = Apollo.BaseMutationOptions<UpdateWordMutation, UpdateWordMutationVariables>;
 export const DeleteWordDocument = gql`
     mutation deleteWord($id: String!) {
   deleteWord(id: $id)
