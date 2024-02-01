@@ -57,9 +57,9 @@ export const WordContext = createContext<
       state: typeof initialValue;
       dispatch: React.Dispatch<any>;
       folder: Folder | undefined;
-      wordsLoading: boolean;
-      wordsError: any;
-      refetchWords: any;
+      folderLoading: boolean;
+      folderError: any;
+      refetchFolder: any;
       wordLoading: boolean;
       wordError: any;
       refetchWord: any;
@@ -77,9 +77,9 @@ export const WordContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const {
     data: wordsData,
-    loading: wordsLoading,
-    error: wordsError,
-    refetch: refetchWords,
+    loading: folderLoading,
+    error: folderError,
+    refetch: refetchFolder,
   } = useFolderQuery({
     variables: {
       id: params.id,
@@ -103,9 +103,9 @@ export const WordContextProvider: React.FC<{ children: ReactNode }> = ({
         state,
         dispatch,
         folder: wordsData?.folder as Folder,
-        wordsLoading,
-        wordsError,
-        refetchWords,
+        folderLoading,
+        folderError,
+        refetchFolder,
         wordLoading,
         wordError,
         refetchWord,

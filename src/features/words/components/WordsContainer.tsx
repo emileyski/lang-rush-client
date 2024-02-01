@@ -12,17 +12,21 @@ import FormDeleteWord from "./FormDeleteWord";
 import WordEdit from "./WordEdit";
 import WordCreate from "./WordCreate";
 import { useWordContext } from "src/Contexts/WordContext";
+import { useState } from "react";
+import FormEditFolder from "@features/folders/components/FormEditFolder";
 
 const WordsContainer = () => {
   //TODO: выводить картинку на основании выбранной темы
   //TODO: добавить возможность редактировать название папки
 
-  const { state, dispatch, folder, wordsError, wordsLoading } =
+  const { state, dispatch, folder, folderError, folderLoading, refetchFolder } =
     useWordContext();
+
+  const [editFolderName, setEditFolderName] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  if (wordsError?.message === "Unauthorized") {
+  if (folderError?.message === "Unauthorized") {
     removeTokens();
     navigate("/signin");
   }
@@ -35,19 +39,26 @@ const WordsContainer = () => {
     }
   };
 
-  if (wordsLoading) {
+  if (folderLoading) {
     return <Loader />;
   }
 
   return (
     <div className="flex flex-col py-[50px]">
       <div className="mb-[20px] flex items-center justify-between">
-        <div className="flex justify-center gap-[7.5px]">
-          <span className="font-sourceSansPro text-[48px] text-[#333C66] dark:text-[#fff]">
+        <div className="flex gap-[7.5px]">
+          <span className="flex h-auto font-sourceSansPro text-[48px] text-[#333C66] dark:text-[#fff]">
+            <button
+              onClick={() => navigate("/")}
+              className="flex h-[100%] cursor-pointer items-center"
+            >
+              <i className="bx bx-left-arrow-alt"></i>
+            </button>
             {folder?.name}
           </span>
           <button
-          //TODO: добавить возможность редактировать название папки
+            //TODO: добавить возможность редактировать название папки
+            onClick={() => setEditFolderName(true)}
           >
             <img src={editIcon} alt="edit" />
           </button>
@@ -116,9 +127,10 @@ const WordsContainer = () => {
         >
           <WordCreate
             // refetch={refetch}
-            onClose={() =>
-              dispatch({ type: "SET_IS_ADDING_WORD", payload: false })
-            }
+            onClose={() => {
+              dispatch({ type: "SET_IS_ADDING_WORD", payload: false });
+              refetchFolder();
+            }}
           />
         </Dialog>
       )}
@@ -155,7 +167,6 @@ const WordsContainer = () => {
           }
         >
           <WordEdit
-            editableWordId={state.selectedForEditingWordId}
             onClose={() => {
               dispatch({
                 type: "SET_SELECTED_FOR_EDITING_WORD_ID",
@@ -163,6 +174,12 @@ const WordsContainer = () => {
               });
             }}
           />
+        </Dialog>
+      )}
+
+      {editFolderName && (
+        <Dialog onClose={() => setEditFolderName(false)}>
+          <FormEditFolder onClose={() => setEditFolderName(false)} />
         </Dialog>
       )}
     </div>

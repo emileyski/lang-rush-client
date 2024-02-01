@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import closeIcon from "@assets/images/close.svg";
 import { useCreateFolderMutation } from "src/genetated/types";
 import { useNavigate } from "react-router-dom";

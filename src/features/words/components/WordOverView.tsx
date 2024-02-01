@@ -42,7 +42,7 @@ const WordOverview: FC<IWordOverviewProps> = ({
           <img src={closeIcon} alt="close" />
         </button>
       </div>
-      <div className="relative flex h-[360px] flex-col overflow-y-scroll p-[20px]">
+      <div className=" relative flex h-[360px] flex-col overflow-y-scroll p-[20px] scrollbar-thin scrollbar-track-[#A8D5F7] scrollbar-thumb-[#2C3659]">
         <button
           className="absolute right-[20px] h-[24px] w-[24px]"
           onClick={() => handleEdit(wordId)}
