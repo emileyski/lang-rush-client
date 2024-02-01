@@ -5,3 +5,4 @@ export * from "./getRefreshToken";
 export * from "./setColorTheme";
 export * from "./getColorTheme";
 export * from "./removeTokens";
+export * from "./filterNonEmptyValues";

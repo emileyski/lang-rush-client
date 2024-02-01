@@ -2,24 +2,29 @@ import { useWordQuery } from "src/genetated/types";
 import { FC, useEffect } from "react";
 import closeIcon from "@assets/images/close.svg";
 import editIcon from "@assets/images/edit.svg";
+import { useWordContext } from "src/Contexts/WordContext";
 
 interface IWordOverviewProps {
   wordId: string;
   handleClose: () => void;
+  handleEdit: (id: string) => void;
 }
 
-const WordOverview: FC<IWordOverviewProps> = ({ wordId, handleClose }) => {
-  const { data, loading, error } = useWordQuery({
-    variables: {
-      id: wordId,
-    },
-  });
-
-  const word = data?.word;
+const WordOverview: FC<IWordOverviewProps> = ({
+  wordId,
+  handleClose,
+  handleEdit,
+}) => {
+  const {
+    wordData: word,
+    // refetchWord,
+    wordLoading: loading,
+    wordError: error,
+  } = useWordContext();
 
   // useEffect(() => {
-  //   console.log(data?.word);
-  // }, [data]);
+  //   refetchWord();
+  // }, [wordId]);
 
   return (
     <div
@@ -30,7 +35,6 @@ const WordOverview: FC<IWordOverviewProps> = ({ wordId, handleClose }) => {
         <span className="font-sourceSansPro text-[20px] font-[600] text-[#fff]">
           {word?.word}
         </span>
-
         <button
           className="absolute right-[-15px] top-[-15px]"
           onClick={handleClose}
@@ -38,13 +42,16 @@ const WordOverview: FC<IWordOverviewProps> = ({ wordId, handleClose }) => {
           <img src={closeIcon} alt="close" />
         </button>
       </div>
-      <div className="relative flex h-[360px] flex-col overflow-y-scroll p-[20px]">
-        <button className="absolute right-[20px] h-[24px] w-[24px]">
+      <div className=" relative flex h-[360px] flex-col overflow-y-scroll p-[20px] scrollbar-thin scrollbar-track-[#A8D5F7] scrollbar-thumb-[#2C3659]">
+        <button
+          className="absolute right-[20px] h-[24px] w-[24px]"
+          onClick={() => handleEdit(wordId)}
+        >
           <img src={editIcon} alt="edit" />
         </button>
 
         <span className="font-sourceSansPro text-[20px] text-[#333C66]">
-          {word?.translation}
+          UA: {word?.translation}
         </span>
         <span className="mt-[20px] font-sourceSansPro text-[22px] font-[600] text-[#333C66]">
           Definition:
@@ -56,8 +63,10 @@ const WordOverview: FC<IWordOverviewProps> = ({ wordId, handleClose }) => {
           Context:
         </span>
         <span className="mt-[10px] font-sourceSansPro text-[16px] text-[#333C66]">
-          {word?.sentences?.map((sentence) => (
-            <p className="mt-[5px]">{sentence}</p>
+          {word?.sentences?.map((sentence, i) => (
+            <p key={i} className="mt-[5px]">
+              {sentence}
+            </p>
           ))}
         </span>
       </div>

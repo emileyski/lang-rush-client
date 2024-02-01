@@ -15,6 +15,7 @@ const FoldersContainer = () => {
   const navigate = useNavigate();
   const [isAddingFolder, setIsAddingFolder] = useState<boolean>(false);
 
+  //TODO: remove this state
   const [isDeletingFolder, setIsDeletingFolder] = useState<boolean>(false);
   const [deleteFolderId, setDeleteFolderId] = useState<string>("");
 

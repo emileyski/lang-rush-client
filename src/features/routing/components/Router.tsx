@@ -4,6 +4,7 @@ import AppLayout from "src/ui/AppLayout";
 import { SignIn, SignUp } from "src/features/authentication";
 import { FoldersContainer } from "@features/folders";
 import { WordsContainer } from "@features/words";
+import { WordContext, WordContextProvider } from "src/Contexts/WordContext";
 
 const Error404 = () => {
   return (
@@ -29,7 +30,14 @@ const router = createBrowserRouter([
         path: "/",
         element: <FoldersContainer />,
       },
-      { path: "/:id/words", element: <WordsContainer /> },
+      {
+        path: "/:id/words",
+        element: (
+          <WordContextProvider>
+            <WordsContainer />
+          </WordContextProvider>
+        ),
+      },
 
       {
         path: "/signin",
