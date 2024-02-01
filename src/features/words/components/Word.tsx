@@ -19,24 +19,6 @@ const Word: React.FC<IWordProps> = ({
   selectCurrentWord,
 }) => {
   const navigate = useNavigate();
-  // const [deleteWord, { loading, error }] = useDeleteWordMutation({
-  //   variables: {
-  //     id,
-  //   },
-  //   onCompleted: () => {
-  //     refetch();
-  //   },
-  //   onError: ({ graphQLErrors }) => {
-  //     if (!graphQLErrors) return;
-  //     for (const err of graphQLErrors) {
-  //       if (err?.message === "Unauthorized") {
-  //         removeTokens();
-  //         navigate("/signin");
-  //         break;
-  //       }
-  //     }
-  //   },
-  // });
 
   const handleSelect = () => {
     selectCurrentWord(id);
@@ -49,7 +31,7 @@ const Word: React.FC<IWordProps> = ({
 
   return (
     <div
-      className="relative flex h-[75px] w-[245px] cursor-pointer items-center justify-center rounded-[10px] bg-[#CADFF2] text-[20px] transition-all duration-300 dark:bg-[#2C3659] dark:text-[#FFF]"
+      className="relative flex h-[75px] w-[100%] cursor-pointer items-center justify-center rounded-[10px] bg-[#CADFF2] text-[20px] transition-all duration-300 dark:bg-[#2C3659] dark:text-[#FFF]"
       onClick={handleSelect}
     >
       <span>{name}</span>
