@@ -296,6 +296,7 @@ export type WhereUserInput = {
 
 export type Word = {
   __typename?: 'Word';
+  audioUrl: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   definition: Scalars['String']['output'];
   form: WordForm;
@@ -384,7 +385,7 @@ export type WordQueryVariables = Exact<{
 }>;
 
 
-export type WordQuery = { __typename?: 'Query', word: { __typename?: 'Word', id: string, word: string, definition: string, form: WordForm, otherAdjs: Array<string>, otherAdvs: Array<string>, otherNouns: Array<string>, otherVerbs: Array<string>, sentences: Array<string>, translation: string } };
+export type WordQuery = { __typename?: 'Query', word: { __typename?: 'Word', id: string, word: string, definition: string, form: WordForm, otherAdjs: Array<string>, otherAdvs: Array<string>, otherNouns: Array<string>, otherVerbs: Array<string>, sentences: Array<string>, translation: string, audioUrl: string } };
 
 export type CreateWordMutationVariables = Exact<{
   definition: Scalars['String']['input'];
@@ -424,6 +425,23 @@ export type DeleteWordMutationVariables = Exact<{
 
 
 export type DeleteWordMutation = { __typename?: 'Mutation', deleteWord?: boolean | null };
+
+export type QuestionsQueryVariables = Exact<{
+  folderId: Scalars['String']['input'];
+  quizType: QuizType;
+}>;
+
+
+export type QuestionsQuery = { __typename?: 'Query', questions: { __typename?: 'Quiz', folderId: string, type: QuizType, questions: Array<{ __typename?: 'Question', wordId: string, question: string, wordForm: WordForm }> } };
+
+export type AnswersMutationVariables = Exact<{
+  folderId: Scalars['String']['input'];
+  answers: Array<Answer> | Answer;
+  quizType: QuizType;
+}>;
+
+
+export type AnswersMutation = { __typename?: 'Mutation', answers: Array<{ __typename?: 'Word', progress: number, word: string, translation: string, definition: string, form: WordForm, id: string }> };
 
 
 export const RefreshTokensDocument = gql`
@@ -758,6 +776,7 @@ export const WordDocument = gql`
     otherVerbs
     sentences
     translation
+    audioUrl
   }
 }
     `;
@@ -914,3 +933,90 @@ export function useDeleteWordMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteWordMutationHookResult = ReturnType<typeof useDeleteWordMutation>;
 export type DeleteWordMutationResult = Apollo.MutationResult<DeleteWordMutation>;
 export type DeleteWordMutationOptions = Apollo.BaseMutationOptions<DeleteWordMutation, DeleteWordMutationVariables>;
+export const QuestionsDocument = gql`
+    query questions($folderId: String!, $quizType: QuizType!) {
+  questions(data: {folderId: $folderId, quizType: $quizType}) {
+    folderId
+    questions {
+      wordId
+      question
+      wordForm
+    }
+    type
+  }
+}
+    `;
+
+/**
+ * __useQuestionsQuery__
+ *
+ * To run a query within a React component, call `useQuestionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQuestionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQuestionsQuery({
+ *   variables: {
+ *      folderId: // value for 'folderId'
+ *      quizType: // value for 'quizType'
+ *   },
+ * });
+ */
+export function useQuestionsQuery(baseOptions: Apollo.QueryHookOptions<QuestionsQuery, QuestionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QuestionsQuery, QuestionsQueryVariables>(QuestionsDocument, options);
+      }
+export function useQuestionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QuestionsQuery, QuestionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QuestionsQuery, QuestionsQueryVariables>(QuestionsDocument, options);
+        }
+export function useQuestionsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<QuestionsQuery, QuestionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<QuestionsQuery, QuestionsQueryVariables>(QuestionsDocument, options);
+        }
+export type QuestionsQueryHookResult = ReturnType<typeof useQuestionsQuery>;
+export type QuestionsLazyQueryHookResult = ReturnType<typeof useQuestionsLazyQuery>;
+export type QuestionsSuspenseQueryHookResult = ReturnType<typeof useQuestionsSuspenseQuery>;
+export type QuestionsQueryResult = Apollo.QueryResult<QuestionsQuery, QuestionsQueryVariables>;
+export const AnswersDocument = gql`
+    mutation answers($folderId: String!, $answers: [Answer!]!, $quizType: QuizType!) {
+  answers(data: {folderId: $folderId, answers: $answers, quizType: $quizType}) {
+    progress
+    word
+    translation
+    definition
+    form
+    id
+  }
+}
+    `;
+export type AnswersMutationFn = Apollo.MutationFunction<AnswersMutation, AnswersMutationVariables>;
+
+/**
+ * __useAnswersMutation__
+ *
+ * To run a mutation, you first call `useAnswersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAnswersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [answersMutation, { data, loading, error }] = useAnswersMutation({
+ *   variables: {
+ *      folderId: // value for 'folderId'
+ *      answers: // value for 'answers'
+ *      quizType: // value for 'quizType'
+ *   },
+ * });
+ */
+export function useAnswersMutation(baseOptions?: Apollo.MutationHookOptions<AnswersMutation, AnswersMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AnswersMutation, AnswersMutationVariables>(AnswersDocument, options);
+      }
+export type AnswersMutationHookResult = ReturnType<typeof useAnswersMutation>;
+export type AnswersMutationResult = Apollo.MutationResult<AnswersMutation>;
+export type AnswersMutationOptions = Apollo.BaseMutationOptions<AnswersMutation, AnswersMutationVariables>;
