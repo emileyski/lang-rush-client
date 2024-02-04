@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Word, WordForm } from "src/genetated/types";
 import thinPlusIcon from "@assets/images/thin-plus.svg";
 import closeIcon from "@assets/images/close.svg";
@@ -53,7 +53,6 @@ interface IWordEditFormProps {
 }
 
 const WordEditForm: FC<IWordEditFormProps> = ({
-  onClose,
   editableWord,
   handleSubmit,
   loading,

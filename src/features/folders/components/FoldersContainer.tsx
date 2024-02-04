@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFoldersQuery } from "src/genetated/types";
 import { removeTokens } from "src/utils";
 import { useNavigate } from "react-router-dom";

@@ -12,12 +12,12 @@ interface IWordCreateProps {
 const WordCreate: FC<IWordCreateProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>() as { id: string };
-  const { refetchWords } = useWordContext();
+  const { refetchFolder } = useWordContext();
 
   const [createWord, { loading, error }] = useCreateWordMutation({
     onCompleted: () => {
       onClose();
-      refetchWords();
+      refetchFolder();
     },
     onError: ({ graphQLErrors }) => {
       if (!graphQLErrors) return;

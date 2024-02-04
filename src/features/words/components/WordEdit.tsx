@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useWordContext } from "src/Contexts/WordContext";
-import { Word, useUpdateWordMutation, useWordQuery } from "src/genetated/types";
+import { Word, useUpdateWordMutation } from "src/genetated/types";
 import Loader from "src/ui/Loader";
 import WordEditForm from "src/ui/WordEditForm";
 import { filterNonEmptyValues, removeTokens } from "src/utils";
