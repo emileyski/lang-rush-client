@@ -100,6 +100,7 @@ export const GET_WORD = gql`
       otherVerbs
       sentences
       translation
+      audioUrl
     }
   }
 `;
@@ -171,5 +172,38 @@ export const UPDATE_WORD = gql`
 export const DELETE_WORD = gql`
   mutation deleteWord($id: String!) {
     deleteWord(id: $id)
+  }
+`;
+
+export const GET_QUIZ = gql`
+  query questions($folderId: String!, $quizType: QuizType!) {
+    questions(data: { folderId: $folderId, quizType: $quizType }) {
+      folderId
+      questions {
+        wordId
+        question
+        wordForm
+      }
+      type
+    }
+  }
+`;
+
+export const GET_ANSWERS = gql`
+  mutation answers(
+    $folderId: String!
+    $answers: [Answer!]!
+    $quizType: QuizType!
+  ) {
+    answers(
+      data: { folderId: $folderId, answers: $answers, quizType: $quizType }
+    ) {
+      progress
+      word
+      translation
+      definition
+      form
+      id
+    }
   }
 `;

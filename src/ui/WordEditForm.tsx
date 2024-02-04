@@ -239,7 +239,7 @@ const WordEditForm: FC<IWordEditFormProps> = ({
         )}
       </div>
       <button
-        className="h-[50px] w-[100%] rounded-b-[10px] bg-[#C5F31D]"
+        className="h-[50px] w-[100%] rounded-b-[10px] bg-[#C5F31D] font-sourceSansPro font-[600] uppercase text-[#252C48] focus:outline-none"
         onClick={() => handleSubmit(word as Word)}
       >
         Submit
