@@ -5,6 +5,8 @@ import { SignIn, SignUp } from "src/features/authentication";
 import { FoldersContainer } from "@features/folders";
 import { WordsContainer } from "@features/words";
 import { WordContext, WordContextProvider } from "src/Contexts/WordContext";
+import TranslationQuiz from "@features/quiz/TranslationQuiz";
+import DefinitionQuiz from "@features/quiz/DefinitionQuiz";
 
 const Error404 = () => {
   return (
@@ -38,7 +40,14 @@ const router = createBrowserRouter([
           </WordContextProvider>
         ),
       },
-
+      {
+        path: "/:id/translation-quiz",
+        element: <TranslationQuiz />,
+      },
+      {
+        path: "/:id/definition-quiz",
+        element: <DefinitionQuiz />,
+      },
       {
         path: "/signin",
         element: <SignIn />,
