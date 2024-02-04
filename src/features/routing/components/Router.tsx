@@ -4,7 +4,7 @@ import AppLayout from "src/ui/AppLayout";
 import { SignIn, SignUp } from "src/features/authentication";
 import { FoldersContainer } from "@features/folders";
 import { WordsContainer } from "@features/words";
-import { WordContext, WordContextProvider } from "src/Contexts/WordContext";
+import { WordContextProvider } from "src/Contexts/WordContext";
 import TranslationQuiz from "@features/quiz/TranslationQuiz";
 import DefinitionQuiz from "@features/quiz/DefinitionQuiz";
 

@@ -16,7 +16,7 @@ const FormEditFolder: React.FC<IFormEditFolderProps> = ({ onClose }) => {
   const [newName, setNewName] = React.useState<string>("");
 
   const { refetchFolder, folder } = useWordContext();
-  const [updateFolder, { loading, error }] = useUpdateFolderMutation({
+  const [updateFolder, { loading }] = useUpdateFolderMutation({
     onCompleted: () => {
       refetchFolder();
       onClose();

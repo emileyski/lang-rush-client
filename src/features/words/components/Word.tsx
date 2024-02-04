@@ -1,9 +1,5 @@
 import React from "react";
 import deleteIcon from "@assets/images/delete.svg";
-import { removeTokens } from "src/utils";
-import { useNavigate } from "react-router-dom";
-import { useDeleteWordMutation } from "src/genetated/types";
-import Loader from "src/ui/Loader";
 
 interface IWordProps {
   id: string;
@@ -18,8 +14,6 @@ const Word: React.FC<IWordProps> = ({
   handleDeleteClick,
   selectCurrentWord,
 }) => {
-  const navigate = useNavigate();
-
   const handleSelect = () => {
     selectCurrentWord(id);
   };

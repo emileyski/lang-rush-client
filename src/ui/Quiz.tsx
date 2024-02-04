@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   Answer,
   QuizType,
-  Word,
   useAnswersMutation,
   useQuestionsQuery,
 } from "src/genetated/types";
@@ -38,11 +37,7 @@ export default function Quiz({ quizType }: IQuizProps) {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>() as { id: string };
 
-  const {
-    data,
-    loading,
-    error: questionsError,
-  } = useQuestionsQuery({
+  const { data, loading } = useQuestionsQuery({
     variables: {
       quizType,
       folderId: params.id,

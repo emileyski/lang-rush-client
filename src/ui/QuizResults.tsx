@@ -1,7 +1,7 @@
 import React from "react";
 import Dialog from "./Dialog";
 import QuizResultsDetails from "./QuizResultsDetails";
-import { QuizType } from "src/genetated/types";
+import { QuizType, Word } from "src/genetated/types";
 import getCorrectAnswersCount from "src/utils/getCorrectAnswersCount";
 
 interface IDispatchArgs {
