@@ -81,7 +81,7 @@ const errorLink = onError(
     }
 
     if (networkError) console.log(`[Network error]: ${networkError}`);
-  }
+  },
 );
 
 export const client = new ApolloClient({

@@ -3,14 +3,13 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSignInMutation } from "src/genetated/types";
 import { setAccessToken, setRefreshToken } from "src/utils";
-import { validateEmail } from "src/utils/validation";
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const [signin, { loading }] = useSignInMutation({
+  const [signin] = useSignInMutation({
     onCompleted: (data) => {
       setAccessToken(data.signIn.accessToken);
       setRefreshToken(data.signIn.refreshToken);

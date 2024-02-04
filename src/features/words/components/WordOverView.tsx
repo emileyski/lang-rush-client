@@ -1,5 +1,4 @@
-import { useWordQuery } from "src/genetated/types";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import closeIcon from "@assets/images/close.svg";
 import editIcon from "@assets/images/edit.svg";
 import { useWordContext } from "src/Contexts/WordContext";
@@ -21,7 +20,6 @@ const WordOverview: FC<IWordOverviewProps> = ({
     wordData: word,
     // refetchWord,
     wordLoading: loading,
-    wordError: error,
   } = useWordContext();
 
   const onPlaySoundClick = () => {
