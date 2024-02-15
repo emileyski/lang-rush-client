@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Lang, useSignUpMutation } from "src/genetated/types";
+import Loader from "src/ui/Loader";
 import { setAccessToken, setRefreshToken } from "src/utils";
 import { validateEmail, validatePassword } from "src/utils/validation";
 
@@ -94,6 +95,10 @@ const SignUp: React.FC = () => {
       },
     });
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <form
