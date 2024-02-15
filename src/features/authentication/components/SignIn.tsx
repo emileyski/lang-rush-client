@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSignInMutation } from "src/genetated/types";
+import Loader from "src/ui/Loader";
 import { setAccessToken, setRefreshToken } from "src/utils";
 
 const SignIn: React.FC = () => {
@@ -9,7 +10,7 @@ const SignIn: React.FC = () => {
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const [signin] = useSignInMutation({
+  const [signin, { loading }] = useSignInMutation({
     onCompleted: (data) => {
       setAccessToken(data.signIn.accessToken);
       setRefreshToken(data.signIn.refreshToken);
@@ -41,6 +42,10 @@ const SignIn: React.FC = () => {
       },
     });
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <form

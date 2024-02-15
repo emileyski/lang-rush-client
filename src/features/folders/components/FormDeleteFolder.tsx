@@ -36,9 +36,6 @@ const FormDeleteFolder: FC<IFormDeleteFolderProps> = ({ onClose, id }) => {
   });
 
   const handleDeleteFolder = async () => {
-    // const sure = window.confirm("Are you sure you want to delete this folder?");
-    // if (!sure) return;
-
     await deleteFolder({ variables: { id } });
   };
 
