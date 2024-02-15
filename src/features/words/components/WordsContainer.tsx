@@ -65,24 +65,36 @@ const WordsContainer = () => {
         </div>
 
         <div className="flex flex-col items-center gap-[15px] md:flex-row">
-          <Link
-            to={`/${folder?.id}/translation-quiz`}
+          <button
+            onClick={() => {
+              if (!folder?.words?.length || folder?.words?.length < 5) {
+                alert("You need at least 5 words to start the quiz");
+                return;
+              }
+              navigate(`/${folder?.id}/translation-quiz`);
+            }}
             className="flex h-[60px] w-[200px] items-center justify-center rounded-[10px] bg-[#C5F31D]"
           >
             <img src={playIcon} alt="play" />
             <span className="font-sourceSansPro text-[20px] text-[#252C48]">
               Translation
             </span>
-          </Link>
-          <Link
-            to={`/${folder?.id}/definition-quiz`}
+          </button>
+          <button
+            onClick={() => {
+              if (!folder?.words?.length || folder?.words?.length < 5) {
+                alert("You need at least 5 words to start the quiz");
+                return;
+              }
+              navigate(`/${folder?.id}/definition-quiz`);
+            }}
             className="flex h-[60px] w-[200px] items-center justify-center rounded-[10px] bg-[#C5F31D]"
           >
             <img src={playIcon} alt="play" />
             <span className="font-sourceSansPro text-[20px] text-[#252C48]">
               Definition
             </span>
-          </Link>
+          </button>
         </div>
       </div>
       <hr className="dark:border-[#F0F0F0 mb-[20px] border-[1.5px] border-[#333C66]" />
