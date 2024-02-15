@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loader from "src/ui/Loader";
 import { removeTokens } from "src/utils";
 import Word from "./Word";
