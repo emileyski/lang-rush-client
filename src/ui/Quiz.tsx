@@ -87,13 +87,13 @@ export default function Quiz({ quizType }: IQuizProps) {
   return (
     <>
       <div className="flex flex-col items-center">
-        <span className="mt-[70px] font-sourceSansPro text-[24px] font-bold">
+        <span className="mt-[70px] font-sourceSansPro text-[24px] font-bold uppercase text-[#252C48] dark:text-[#ffffff]">
           {quizType === QuizType.DefinitionWord
             ? "Write the appropriate word for definition in the input fields:"
             : "Enter the translation of the word in the field:"}
         </span>
         <div className="mt-[45px] w-[435px] text-[20px] text-[#252C48]">
-          <div className="rounded-[10px] bg-[#f0f0f0] px-[15px] py-[10px] text-justify font-sourceSansPro">
+          <div className="rounded-[10px] bg-[#f0f0f0] px-[15px] py-[10px] text-justify font-sourceSansPro dark:bg-[#2C3659] dark:text-[#ffffff]">
             <span>
               {currentIdx + 1}.{" "}
               {data?.questions?.questions[currentIdx].question}
@@ -109,7 +109,7 @@ export default function Quiz({ quizType }: IQuizProps) {
                     dispatch({ type: "answers", payload: newAnswers });
                   }}
                   type="text"
-                  className="w-[140px] rounded-[5px] px-1 focus:outline-none"
+                  className="w-[140px] rounded-[5px] px-1 text-[#2C3659] focus:outline-none"
                 />
               </div>
               <span>
