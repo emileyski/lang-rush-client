@@ -16,12 +16,17 @@ function Header() {
     const sure = window.confirm("Are you sure you want to log out?");
     if (!sure) return;
 
-    await logOut();
+    try {
+      await logOut();
+    } catch (error) {
+      // alert("Error logging out");
+      console.error("Error logging out", error);
+    } finally {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
 
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-
-    navigate("/signin");
+      navigate("/signin");
+    }
   };
 
   return (
